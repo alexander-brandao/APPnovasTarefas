@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 
 class Tarefas extends StatefulWidget {
-  const Tarefas({Key? key}) : super(key: key);
+   const Tarefas({Key? key}) : super(key: key);
+
 
   @override
   State<Tarefas> createState() => _TarefasState();
 }
 
 class _TarefasState extends State<Tarefas> {
+   bool _opacidade = true;
+   late bool _olho = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,13 +19,33 @@ class _TarefasState extends State<Tarefas> {
         backgroundColor: Colors.amber,
         foregroundColor: Colors.black,
       ),
-      body:  ListView(
-        children: const [
-          Task("APP Leaozinho", 5),
-          Task("Fera no Flutter", 2),
-          Task("Surfar no Java", 3),
-        ],
+      body:  AnimatedOpacity(
+        opacity: _opacidade ? 1 :0,
+        duration: const Duration(milliseconds: 800),
+        child: ListView(
+          children: const [
+            Task("APP Leaozinho", 5),
+            Task("Fera no Flutter", 2),
+            Task("Surfar no Java", 3),
+          ],
+        ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+          if(_olho){
+            setState(() {
+              _olho = false;
+              _opacidade = false;
+            });
+          } else{
+            setState(() {
+              _olho = true;
+              _opacidade = true;
+            });
+          }
+        },
+        backgroundColor: Colors.amber,
+        child: Icon((_olho == true) ?Icons.remove_red_eye_outlined : Icons.lock),),
     );
   }
 }

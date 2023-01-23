@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    title: "Leãozinho",
+    title: "Tarefas",
     theme: ThemeData.dark(),
     home: Tarefas(),
   ));
