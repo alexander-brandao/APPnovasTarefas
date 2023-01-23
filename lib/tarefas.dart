@@ -17,10 +17,10 @@ class _TarefasState extends State<Tarefas> {
         foregroundColor: Colors.black,
       ),
       body:  ListView(
-        children: [
-          Task("APP Leaozinho"),
-          Task("Fera no Flutter"),
-          Task("Surfar no Java"),
+        children: const [
+          Task("APP Leaozinho", 5),
+          Task("Fera no Flutter", 2),
+          Task("Surfar no Java", 3),
         ],
       ),
     );
@@ -29,7 +29,8 @@ class _TarefasState extends State<Tarefas> {
 
 class Task extends StatefulWidget {
   final String nome;
-  const Task(this.nome,{Key? key}) : super(key: key);
+  final int dificuldade;
+  const Task(this.nome, this.dificuldade,{Key? key}) : super(key: key);
 
   @override
   State<Task> createState() => _TaskState();
@@ -45,29 +46,38 @@ class _TaskState extends State<Task> {
       child: Stack(
         children: [
           Container(
-            color: Colors.amber,
             height: 140,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(4.0),
+              color: Colors.amber,
+            ),
           ),
           Column(
             children: [
               Container(
-                color: Colors.black,
                 height: 100,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4),
+                  color: Colors.black,
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      child: Image.asset("images/lion.png"),
-                      color: Colors.grey,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4),
+                        color: Colors.grey,
+                      ),
                       width: 72,
                       height: 100,
+                      child: Image.asset("images/lion.png"),
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Container(
+                          child: SizedBox(
                             width: 200,
                               child:
                               Text(
@@ -82,17 +92,17 @@ class _TaskState extends State<Task> {
                           child: Row(
 
                             children: [
-                              Icon(Icons.star, size: 15,color: Colors.amber[100],),
-                              Icon(Icons.star, size: 15,color: Colors.amber[100],),
-                              Icon(Icons.star, size: 15,color: Colors.amber[100],),
-                              Icon(Icons.star, size: 15,color: Colors.amber[100],),
-                              Icon(Icons.star, size: 15,color: Colors.amber[100],),
+                              Icon(Icons.star, size: 15,color: (widget.dificuldade >= 1)? Colors.amber : Colors.amber[100]),
+                              Icon(Icons.star, size: 15,color: (widget.dificuldade >= 2)? Colors.amber : Colors.amber[100]),
+                              Icon(Icons.star, size: 15,color: (widget.dificuldade >= 3)? Colors.amber : Colors.amber[100]),
+                              Icon(Icons.star, size: 15,color: (widget.dificuldade >= 4)? Colors.amber : Colors.amber[100]),
+                              Icon(Icons.star, size: 15,color: (widget.dificuldade >= 5)? Colors.amber : Colors.amber[100]),
                             ],
                           ),
                         ),
                       ],
                     ),
-                    Container(
+                    SizedBox(
                       width: 52,
                       height: 52,
                       child: ElevatedButton(
@@ -119,17 +129,17 @@ class _TaskState extends State<Task> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Container(
+                    child: SizedBox(
                       width: 200,
                       child: LinearProgressIndicator(
                         color: Colors.white,
-                        value: nivel/10,
+                        value: (widget.dificuldade > 0) ? (nivel/widget.dificuldade)/10 : 1,
                       ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text("Nivel $nivel", style: TextStyle(fontSize: 20),),
+                    child: Text("Nivel $nivel", style: const TextStyle(fontSize: 20),),
                   ),
                 ],
               ),
