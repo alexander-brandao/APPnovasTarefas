@@ -8,7 +8,7 @@ void main() {
     debugShowCheckedModeBanner: false,
     title: "Tarefas",
     theme: ThemeData.dark(),
-    home: FormScreen(),
+    home: const Tarefas(),
   ));
 }
 
