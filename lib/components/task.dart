@@ -1,56 +1,18 @@
 import 'package:flutter/material.dart';
 
-import 'form_screen.dart';
-
-class Tarefas extends StatefulWidget {
-  const Tarefas({Key? key}) : super(key: key);
-
-  @override
-  State<Tarefas> createState() => TarefasState();
-}
-
-class TarefasState extends State<Tarefas> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Tarefas"),
-        backgroundColor: Colors.amber,
-        foregroundColor: Colors.black,
-      ),
-      body: ListView(
-        children: const [
-          Task("APP Leaozinho", 5),
-          Task("Fera no Flutter", 2),
-          Task("Surfar no Java", 3),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const FormScreen()),
-          );
-        },
-        backgroundColor: Colors.amber,
-        child: const Icon(Icons.add),
-      ),
-    );
-  }
-}
-
 class Task extends StatefulWidget {
   final String nome;
   final int dificuldade;
+  final String foto;
 
-  const Task(this.nome, this.dificuldade, {Key? key}) : super(key: key);
-
+   Task(this.nome, this.dificuldade,this.foto, {Key? key}) : super(key: key);
+  int nivel = 0;
   @override
   State<Task> createState() => _TaskState();
 }
 
 class _TaskState extends State<Task> {
-  int nivel = 0;
+
 
   @override
   Widget build(BuildContext context) {
@@ -79,11 +41,14 @@ class _TaskState extends State<Task> {
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(4),
-                        color: Colors.grey,
+                        color: Colors.white,
                       ),
                       width: 72,
                       height: 100,
-                      child: Image.asset("images/lion.png"),
+                      child: Image.network(
+                          widget.foto,
+                          fit: BoxFit.cover,
+                      ),
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -139,11 +104,11 @@ class _TaskState extends State<Task> {
                       child: ElevatedButton(
                           style: ButtonStyle(
                             backgroundColor:
-                                MaterialStateProperty.all(Colors.amber),
+                            MaterialStateProperty.all(Colors.amber),
                           ),
                           onPressed: () {
                             setState(() {
-                              nivel++;
+                              widget.nivel++;
                             });
                           },
                           child: Column(
@@ -168,7 +133,7 @@ class _TaskState extends State<Task> {
                       child: LinearProgressIndicator(
                         color: Colors.white,
                         value: (widget.dificuldade > 0)
-                            ? (nivel / widget.dificuldade) / 10
+                            ? (widget.nivel / widget.dificuldade) / 10
                             : 1,
                       ),
                     ),
@@ -176,7 +141,7 @@ class _TaskState extends State<Task> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      "Nivel $nivel",
+                      "Nivel ${widget.nivel}",
                       style: const TextStyle(fontSize: 20),
                     ),
                   ),
