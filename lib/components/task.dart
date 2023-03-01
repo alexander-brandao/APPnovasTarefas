@@ -1,3 +1,4 @@
+import 'package:capacitacao/data/task_dao.dart';
 import 'package:flutter/material.dart';
 
 class Task extends StatefulWidget {
@@ -102,6 +103,9 @@ class _TaskState extends State<Task> {
                       width: 52,
                       height: 52,
                       child: ElevatedButton(
+                          onLongPress: (){
+                            TaskDao().delete(widget.nome);
+                          },
                           style: ButtonStyle(
                             backgroundColor:
                             MaterialStateProperty.all(Colors.amber),

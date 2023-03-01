@@ -1,3 +1,5 @@
+import 'package:capacitacao/components/task.dart';
+import 'package:capacitacao/data/task_dao.dart';
 import 'package:capacitacao/data/task_inherited.dart';
 import 'package:flutter/material.dart';
 
@@ -16,16 +18,16 @@ class _FormScreenState extends State<FormScreen> {
   final _imagem = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  bool valueValidador(String? value){
-    if(value != null && value.isEmpty){
+  bool valueValidador(String? value) {
+    if (value != null && value.isEmpty) {
       return true;
     }
     return false;
   }
 
-  bool difficultyValidator(String? value){
-    if(value != null && value.isEmpty){
-      if(int.parse(value) > 5 || int.parse(value) < 1){
+  bool difficultyValidator(String? value) {
+    if (value != null && value.isEmpty) {
+      if (int.parse(value) > 5 || int.parse(value) < 1) {
         return true;
       }
     }
@@ -147,15 +149,16 @@ class _FormScreenState extends State<FormScreen> {
                   ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        TaskInherited.of(widget.taskContext).newTask(
-                            _nome.text,
-                            int.parse(_dificuldade.text),
-                            _imagem.text
+                        TaskDao().save(
+                            Task(
+                                _nome.text,
+                                int.parse(_dificuldade.text),
+                                _imagem.text)
                         );
                         ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                                content: Text("Adicionando Nova Tarefa"),
-                                backgroundColor: Colors.green,
+                              content: Text("Adicionando Nova Tarefa"),
+                              backgroundColor: Colors.green,
                             )
                         );
                         Navigator.pop(context);
@@ -163,9 +166,9 @@ class _FormScreenState extends State<FormScreen> {
                     },
                     style: ButtonStyle(
                         backgroundColor:
-                            MaterialStateProperty.all(Colors.amber),
+                        MaterialStateProperty.all(Colors.amber),
                         foregroundColor:
-                            MaterialStateProperty.all(Colors.black)),
+                        MaterialStateProperty.all(Colors.black)),
                     child: const Text("Adiciaonar"),
                   )
                 ],
